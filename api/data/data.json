@@ -1,1 +1,1 @@
-{"teams":[{"name":"Team 1","id":"847c5ec0-1737-4c96-8a66-c4c3de283f00"}],"rounds":[{"name":"R1","id":"59e74128-5cf9-4c8b-9976-04ca6bc941de"},{"name":"R2","id":"cd352b4e-e63f-4fa2-942f-d04ac51c21eb"}],"scores":{}}
+{"display": { "mode": "ranking"}, teams":[{"name":"Team 1","id":"847c5ec0-1737-4c96-8a66-c4c3de283f00"}],"rounds":[{"name":"R1","id":"59e74128-5cf9-4c8b-9976-04ca6bc941de"},{"name":"R2","id":"cd352b4e-e63f-4fa2-942f-d04ac51c21eb"}],"scores":{}}
