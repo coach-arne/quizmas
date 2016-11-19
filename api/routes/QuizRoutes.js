@@ -15,4 +15,6 @@ module.exports = (App) => {
 
     App.get('/api/ranking/final', (req, res) => res.status(304).send());
 
+    App.get('/api/quiz/everything', (req, res) => res.status(200).send(QuizRepository.everything()));
+
 };

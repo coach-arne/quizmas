@@ -17,7 +17,7 @@
 
         function getRankings () { return fetch('/api/rankings/list').then(toJson);  }
         function getRankingsForFinal () { return fetch('/api/rankings/final').then(toJson); }
-        function getTeamScores () { return fetch('/api/admin/scores').then(toJson); }
+        function getScores () { return fetch('/api/admin/scores').then(toJson); }
         function updateTeamScore (team, round, value) {
             return fetch('/api/admin/score/'+team+'/round/'+round+'/score', {
                 method: 'post',
@@ -25,6 +25,11 @@
                     value: value
                 })
             }).then(toJson);
+        }
+
+        // I'll fix everything later... sighs
+        function getEverything () {
+            return fetch('/api/quiz/everything').then(toJson);
         }
 
         return {
@@ -36,8 +41,9 @@
             deleteRound: deleteRound,
             getRankings: getRankings,
             getRankingsForFinal: getRankingsForFinal,
-            getTeamScores: getTeamScores,
-            updateTeamScore: updateTeamScore
+            getScores: getScores,
+            updateTeamScore: updateTeamScore,
+            getEverything: getEverything
         };
     }();
 

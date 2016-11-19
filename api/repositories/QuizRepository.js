@@ -70,5 +70,6 @@ module.exports = {
     setScoreForTeamForRound, setDisplayMode,
     save,
     createTeam, createRound,
-    deleteTeam, deleteRound
+    deleteTeam, deleteRound,
+    everything: () => Lenses.config()
 };
