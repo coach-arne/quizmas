@@ -25,6 +25,9 @@
         </div>
     </div>
 
+    <div id="scores-header">
+        <span style="display: inline-block; width: 300px; margin-right: 8px;">Tafelnummer & groepsnaam</span>
+    </div>
     <div id="scores-container">
 
     </div>
@@ -43,13 +46,28 @@
 
                 Quizmas.getEverything().then(function (everything) {
 
-                    everything.teams.forEach(function (team) {
+                    function stringSort (item1, item2) {
+                        if ( item1.name < item2.name )
+                            return -1;
+                        if ( item1.name > item2.name )
+                            return 1;
+                        return 0;
+                    }
+
+                    everything.rounds.sort(stringSort).forEach(function (round) {
+                        $('<span />', {
+                            class: 'score-round-header',
+                            html: `${round.name}`
+                        }).appendTo('#scores-header');
+                    });
+
+                    everything.teams.sort(function (a, b){ return a.table - b.table; }).forEach(function (team) {
                         $('<div />', {
                             id: 'team-'+team.id,
-                            html: `<span style="font-weight: bold; margin-right: 12px; width: 100px; display: inline-block">${team.name}</span>`
+                            html: `<span style="font-weight: bold; margin-right: 12px; width: 300px; display: inline-block">${team.table}: ${team.name}</span>`
                         }).appendTo('#scores-container');
 
-                        everything.rounds.forEach(function (round) {
+                        everything.rounds.sort(stringSort).forEach(function (round) {
 
                             var scorePath = R.lensPath(['scores', team.id, round.id]);
                             var score = R.view(scorePath, everything) || 0;
@@ -58,6 +76,12 @@
                                 id: 'team-'+team.id+'-round-'+round.id,
                                 html: `<input class="score-input" id="score-${team.id}-${round.id}" type="text" value="${score}" />`
                             }).appendTo('#team-'+team.id);
+
+                            $(`#score-${team.id}-${round.id}`).blur(function () {
+                                Quizmas.updateTeamScore(team.id, round.id, $(this).val()).then(function () {
+                                    console.log('done');
+                                });
+                            });
 
                         });
 

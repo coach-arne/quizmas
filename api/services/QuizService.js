@@ -21,10 +21,11 @@ const deleteTeam = (teamId) => {
 
 };
 
-const createTeam = (name) => {
+const createTeam = (name, table) => {
 
     const team = {
         id: UUID.v4(),
+        table: table,
         name: name
     };
 

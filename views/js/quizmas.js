@@ -8,7 +8,7 @@
         function toJson (response) { return response.json(); }
 
         function getTeams () { return fetch('/api/team/list').then(toJson); }
-        function createTeam (team) { return fetch('/api/team?name='+encodeURIComponent(team), { method: 'put' }).then(toJson); }
+        function createTeam (team, number) { return fetch('/api/team?name='+encodeURIComponent(team)+'&table='+encodeURIComponent(number), { method: 'put' }).then(toJson); }
         function deleteTeam (id) { return fetch('/api/team/'+id, { method: 'delete' }).then(toJson); }
 
         function getRounds () { return fetch('/api/round/list').then(toJson); }
@@ -19,12 +19,7 @@
         function getRankingsForFinal () { return fetch('/api/rankings/final').then(toJson); }
         function getScores () { return fetch('/api/admin/scores').then(toJson); }
         function updateTeamScore (team, round, value) {
-            return fetch('/api/admin/score/'+team+'/round/'+round+'/score', {
-                method: 'post',
-                body: JSON.stringify({
-                    value: value
-                })
-            }).then(toJson);
+            return fetch('/api/admin/score/team/'+team+'/round/'+round+'/score?value='+encodeURIComponent(value), { method: 'post' }).then(toJson);
         }
 
         // I'll fix everything later... sighs

@@ -10,3 +10,4 @@ body {
 .margin-top { margin-top: 12px; }
 
 .score-input { width: 30px; }
+.score-round-header { display: inline-block; width: 30px; text-align: center;}

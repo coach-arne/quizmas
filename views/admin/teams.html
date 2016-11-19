@@ -31,6 +31,9 @@
         <div class="col-sm-5">
             <input id="create-team-input" type="text" class="form-control" placeholder="naam">
         </div>
+        <div class="col-sm-2">
+            <input id="create-team-input-table" type="number" class="form-control" placeholder="tafelnummer">
+        </div>
         <div class="col-sm-1">
             <span id="create-team-btn" class="btn btn-success">Voeg toe</span>
         </div>
@@ -70,7 +73,7 @@
                             id: 'round'+team.id,
                             html: `
                             <div class="row list-item" style="font-size: 16px;">
-                                <div class="col-sm-12"><i id="delete-team-${team.id}" class="glyphicon glyphicon-remove-circle"></i> ${team.name}</div>
+                                <div class="col-sm-12"><i id="delete-team-${team.id}" class="glyphicon glyphicon-remove-circle"></i> ${team.name} [${team.table}]</div>
                             <div>
                         `
                         }).appendTo('#teams-container');
@@ -85,9 +88,10 @@
 
             $('#create-team-btn').click(function (){
                 var value = $('#create-team-input').val();
+                var number = $('#create-team-input-table').val();
+                console.log(number);
                 if (value) {
-                    console.log(value);
-                    Quizmas.createTeam(value).then(showAllTeams);
+                    Quizmas.createTeam(value, number).then(showAllTeams);
                 }
             });
 
