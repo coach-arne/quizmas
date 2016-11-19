@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Arvraepe/quizmas#readme",
   "devDependencies": {
+    "app-module-path": "^2.1.0",
     "body-parser": "^1.15.2",
     "bootstrap": "^3.3.7",
     "express": "^4.14.0",
