@@ -24,10 +24,31 @@ const getScoresForTeam = (team) => scoresForTeam(team).view();
 const getScoreForTeamForRound = (team, round) => scoresForTeamForRound(team, round).view();
 
 // Setters
+const setTeams = (t) => teams().set(t);
+const setRounds = (r) => rounds().set(r);
 const setScoreForTeamForRound = (team, round, value) => scoresForTeamForRound(team, round).set(value);
+
+// Creators
+const createTeam = (team) => {
+    const list = R.clone(teams().view());
+    list.push(team);
+
+    setTeams(list);
+};
+const createRound = (round) => {
+    const list = R.clone(rounds().view());
+    list.push(round);
+
+    setRounds(list);
+};
 
 // Administrative
 const save = () => fs.writeFileSync(dir + '/api/data/data.json', JSON.stringify(Lenses.config()));
 
 // Exports
-module.exports = { getAllTeams, getAllRounds, getAllScores, getScoresForTeam, getScoreForTeamForRound, setScoreForTeamForRound, save };
+module.exports = {
+    getAllTeams, getAllRounds, getAllScores, getScoresForTeam, getScoreForTeamForRound,
+    setScoreForTeamForRound,
+    save,
+    createTeam, createRound
+};

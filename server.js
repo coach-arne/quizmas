@@ -17,5 +17,7 @@ App.use(Express.static('views'));
 App.use(BodyParser.json());
 
 require('routes/QuizRoutes')(App);
+require('routes/TeamRoutes')(App);
+require('routes/RoundRoutes')(App);
 
 App.listen(8080, () => console.log('Quizmas App Launched'));
