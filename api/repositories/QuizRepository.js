@@ -9,8 +9,8 @@ const Lenses = require('helpers/Lenses');
 
 Lenses.use(Data);
 
-const scoreForTeamForRound = (team, round) => Lenses.create(['scores', team, round]);
-const scoreForTeam = (team) => Lenses.create(['scores', team]);
+const scoresForTeamForRound = (team, round) => Lenses.create(['scores', team, round]);
+const scoresForTeam = (team) => Lenses.create(['scores', team]);
 const teams = () => Lenses.create(['teams']);
 const rounds = () => Lenses.create(['teams']);
 const scores = () => Lenses.create(['scores']);
@@ -18,7 +18,10 @@ const scores = () => Lenses.create(['scores']);
 const getAllTeams = () => teams().view();
 const getAllRounds = () => rounds().view();
 const getAllScores = () => scores().view();
-const getScoreForTeam = (team) => scoreForTeam(team).view();
-const getScoreForTeamForRound = (team, round) => scoreForTeamForRound(team, round).view();
+const getScoresForTeam = (team) => scoresForTeam(team).view();
+const getScoreForTeamForRound = (team, round) => scoresForTeamForRound(team, round).view();
+const setScoreForTeamForRound = (team, round, value) => scoresForTeamForRound(team, round).set(value);
 
-module.exports = { getAllTeams, getAllRounds, getAllScores, getScoreForTeam, getScoreForTeamForRound };
+const save = () => fs.writeFileSync(dir + '/api/data/data.json', JSON.stringify(Lenses.config()));
+
+module.exports = { getAllTeams, getAllRounds, getAllScores, getScoresForTeam, getScoreForTeamForRound, setScoreForTeamForRound, save };

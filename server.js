@@ -4,11 +4,18 @@
 
 require('app-module-path').addPath(__dirname + '/api');
 
+const path = require('path');
+
 global.R = require('ramda');
+global.dir = path.resolve(__dirname);
 
 const Express = require('express');
 const App = Express();
+const BodyParser = require('body-parser');
 
 App.use(Express.static('views'));
+App.use(BodyParser.json());
+
+require('routes/QuizRoutes')(App);
 
 App.listen(80, () => console.log('Quizmas App Launched'));
