@@ -25,6 +25,11 @@
         </div>
     </div>
 
+    <div id="scores-container">
+
+    </div>
+
+    <script src="../js/ramda.min.js"></script>
     <script src="../js/jquery.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/fetch.js"></script>
@@ -33,10 +38,37 @@
 
         $(document).ready(function (){
 
-            Quizmas.getEverything(function (everything) {
+            function update () {
+                $('#scores-container').html();
 
-            });
+                Quizmas.getEverything().then(function (everything) {
 
+                    everything.teams.forEach(function (team) {
+                        $('<div />', {
+                            id: 'team-'+team.id,
+                            html: `<span style="font-weight: bold; margin-right: 12px; width: 100px; display: inline-block">${team.name}</span>`
+                        }).appendTo('#scores-container');
+
+                        everything.rounds.forEach(function (round) {
+
+                            var scorePath = R.lensPath(['scores', team.id, round.id]);
+                            var score = R.view(scorePath, everything) || 0;
+
+                            $('<span />', {
+                                id: 'team-'+team.id+'-round-'+round.id,
+                                html: `<input class="score-input" id="score-${team.id}-${round.id}" type="text" value="${score}" />`
+                            }).appendTo('#team-'+team.id);
+
+                        });
+
+                    });
+
+
+
+                });
+            }
+
+            update();
         });
 
     </script>
