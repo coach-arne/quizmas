@@ -4,6 +4,8 @@
 
 require('app-module-path').addPath(__dirname + '/api');
 
+global.R = require('ramda');
+
 const Express = require('express');
 const App = Express();
 
