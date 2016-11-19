@@ -18,4 +18,4 @@ App.use(BodyParser.json());
 
 require('routes/QuizRoutes')(App);
 
-App.listen(80, () => console.log('Quizmas App Launched'));
+App.listen(8080, () => console.log('Quizmas App Launched'));

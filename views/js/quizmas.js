@@ -11,10 +11,9 @@
         function getRankingsForFinal () { return fetch('/api/rankings/final').then(toJson); }
         function getTeamScores () { return fetch('/api/admin/scores').then(toJson); }
         function updateTeamScore (team, round, value) {
-            return fetch('/api/admin/score/'+team+'/update', {
+            return fetch('/api/admin/score/'+team+'/round/'+round+'/score', {
                 method: 'post',
                 body: JSON.stringify({
-                    round: round,
                     value: value
                 })
             }).then(toJson);
