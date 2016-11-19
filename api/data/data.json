@@ -1,0 +1,5 @@
+{
+  "teams": ["team1", "team2", "team3"],
+  "rounds": ["R1", "R2", "R3", "S"],
+  "scores": {}
+}
