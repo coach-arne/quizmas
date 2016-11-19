@@ -42,6 +42,20 @@ const createRound = (round) => {
     setRounds(list);
 };
 
+// Deleters
+const deleteTeam = (id) => {
+    const list = R.clone(teams().view());
+    const filtered = list.filter((team) => team.id !== id);
+
+    setTeams(filtered);
+};
+const deleteRound = (id) => {
+    const list = R.clone(rounds().view());
+    const filtered = list.filter((round) => round.id !== id);
+
+    setRounds(filtered);
+};
+
 // Administrative
 const save = () => fs.writeFileSync(dir + '/api/data/data.json', JSON.stringify(Lenses.config()));
 
@@ -50,5 +64,6 @@ module.exports = {
     getAllTeams, getAllRounds, getAllScores, getScoresForTeam, getScoreForTeamForRound,
     setScoreForTeamForRound,
     save,
-    createTeam, createRound
+    createTeam, createRound,
+    deleteTeam, deleteRound
 };

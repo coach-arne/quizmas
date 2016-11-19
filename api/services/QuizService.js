@@ -12,6 +12,15 @@ const setScoreForTeamForRound = (team, round, value) => {
     return QuizRepository.getScoresForTeam(team, round);
 };
 
+const deleteTeam = (teamId) => {
+
+    QuizRepository.deleteTeam(teamId);
+    QuizRepository.save();
+
+    return QuizRepository.getAllTeams();
+
+};
+
 const createTeam = (team) => {
 
     team.id = UUID.v4();
@@ -20,6 +29,15 @@ const createTeam = (team) => {
     QuizRepository.save();
 
     return team;
+};
+
+const deleteRound = (roundId) => {
+
+    QuizRepository.deleteRound(roundId);
+    QuizRepository.save();
+
+    return QuizRepository.getAllRounds();
+
 };
 
 const createRound = (round) => {
@@ -32,4 +50,4 @@ const createRound = (round) => {
     return round;
 };
 
-module.exports = { setScoreForTeamForRound, createTeam, createRound };
+module.exports = { setScoreForTeamForRound, createTeam, createRound, deleteTeam, deleteRound };
