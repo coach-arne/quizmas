@@ -24,13 +24,76 @@
         </div>
     </div>
 
+    <div class="row">
+        <div class="col-sm-12">
+            <h3>Team toevoegen</h3>
+        </div>
+        <div class="col-sm-5">
+            <input id="create-team-input" type="text" class="form-control" placeholder="naam">
+        </div>
+        <div class="col-sm-1">
+            <span id="create-team-btn" class="btn btn-success">Voeg toe</span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <h3>Teams</h3>
+        </div>
+    </div>
+
+    <div class="row">
+        <div id="teams-container" class="col-sm-12">
+
+        </div>
+    </div>
+
     <script src="../js/jquery.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/fetch.js"></script>
     <script src="../js/quizmas.js"></script>
     <script>
 
+        $(document).ready(function () {
 
+            function showAllTeams () {
+
+                $('#teams-container').html();
+
+                Quizmas.getTeams().then(function (rounds) {
+
+                    $('#teams-container').html('');
+
+                    rounds.forEach(function (team){
+
+                        $('<div/>', {
+                            id: 'round'+team.id,
+                            html: `
+                            <div class="row list-item" style="font-size: 16px;">
+                                <div class="col-sm-12"><i id="delete-team-${team.id}" class="glyphicon glyphicon-remove-circle"></i> ${team.name}</div>
+                            <div>
+                        `
+                        }).appendTo('#teams-container');
+
+                        $('#delete-team-'+team.id).click(function () {
+                            Quizmas.deleteTeam(team.id).then(showAllTeams);
+                        });
+
+                    });
+                });
+            }
+
+            $('#create-team-btn').click(function (){
+                var value = $('#create-team-input').val();
+                if (value) {
+                    console.log(value);
+                    Quizmas.createTeam(value).then(showAllTeams);
+                }
+            });
+
+            showAllTeams();
+
+        });
 
     </script>
 </body>

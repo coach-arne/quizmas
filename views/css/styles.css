@@ -1,3 +1,10 @@
 body {
     margin: 25px;
 }
+
+.list-item {  }
+.list-item:nth-child(event) { background-color: #ccc; }
+
+.glyphicon { margin-right: 8px; }
+
+.margin-top { margin-top: 12px; }

@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <title>Quizmas - Admin - Rondes</title>
 
-    <link href="../css/bootstrap.css" rel="stylesheet">
-    <link href="../css/bootstrap-theme.css" rel="stylesheet">
-    <link href="../css/styles.css" rel="stylesheet">
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/bootstrap-theme.css" rel="stylesheet">
+    <link href="/css/styles.css" rel="stylesheet">
 </head>
 <body>
 
@@ -22,15 +22,79 @@
         <div class="col-sm-12">
             <h1>Quizmas: Rondes</h1>
         </div>
-        </div>
+    </div>
 
-    <script src="../js/jquery.min.js"></script>
-    <script src="../js/bootstrap.min.js"></script>
-    <script src="../js/fetch.js"></script>
-    <script src="../js/quizmas.js"></script>
+    <div class="row">
+        <div class="col-sm-12">
+            <h3>Ronde toevoegen</h3>
+        </div>
+        <div class="col-sm-5">
+            <input id="create-round-input" type="text" class="form-control">
+        </div>
+        <div class="col-sm-1">
+            <span id="create-round-btn" class="btn btn-success">Voeg toe</span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <h3>Rondes</h3>
+        </div>
+    </div>
+
+    <div class="row">
+        <div id="rounds-container" class="col-sm-12">
+
+        </div>
+    </div>
+
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/fetch.js"></script>
+    <script src="/js/quizmas.js"></script>
     <script>
 
+        $(document).ready(function () {
 
+            function showAllRounds () {
+
+                $('#rounds-container').html();
+
+                Quizmas.getRounds().then(function (rounds) {
+
+                    $('#rounds-container').html('');
+
+                    rounds.forEach(function (round){
+
+                        $('<div/>', {
+                            id: 'round'+round.id,
+                            html: `
+                            <div class="row list-item" style="font-size: 16px;">
+                                <div class="col-sm-12"><i id="delete-round-${round.id}" class="glyphicon glyphicon-remove-circle"></i> ${round.name}</div>
+                            <div>
+                        `
+                        }).appendTo('#rounds-container');
+
+                        $('#delete-round-'+round.id).click(function () {
+                            Quizmas.deleteRound(round.id).then(showAllRounds);
+                        });
+
+                    });
+                });
+            }
+
+            $('#create-round-btn').click(function (){
+                    var value = $('#create-round-input').val();
+                    if (value) {
+                        console.log(value);
+                        Quizmas.createRound(value).then(function () { console.log('DONE'); }).then(showAllRounds);
+                    }
+            });
+
+            showAllRounds();
+
+        });
 
     </script>
 </body>

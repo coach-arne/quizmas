@@ -21,11 +21,15 @@ const deleteTeam = (teamId) => {
 
 };
 
-const createTeam = (team) => {
+const createTeam = (name) => {
 
-    team.id = UUID.v4();
+    const team = {
+        id: UUID.v4(),
+        name: name
+    };
 
     QuizRepository.createTeam(team);
+
     QuizRepository.save();
 
     return team;
@@ -40,9 +44,12 @@ const deleteRound = (roundId) => {
 
 };
 
-const createRound = (round) => {
+const createRound = (name) => {
 
-    round.id = UUID.v4();
+    const round = {
+        id: UUID.v4(),
+        name: name
+    };
 
     QuizRepository.createRound(round);
     QuizRepository.save();
