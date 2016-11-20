@@ -52,6 +52,14 @@
 
         $(document).ready(function () {
 
+            function stringSort (item1, item2) {
+                if ( item1.name < item2.name )
+                    return -1;
+                if ( item1.name > item2.name )
+                    return 1;
+                return 0;
+            }
+
             function showAllRounds () {
 
                 $('#rounds-container').html();
@@ -60,7 +68,7 @@
 
                     $('#rounds-container').html('');
 
-                    rounds.forEach(function (round){
+                    rounds.sort(stringSort).forEach(function (round){
 
                         $('<div/>', {
                             id: 'round'+round.id,
@@ -79,11 +87,15 @@
                 });
             }
 
+            function clearInputFields () {
+                $('#create-round-input').val('')
+            }
+
             $('#create-round-btn').click(function (){
                     var value = $('#create-round-input').val();
                     if (value) {
                         console.log(value);
-                        Quizmas.createRound(value).then(function () { console.log('DONE'); }).then(showAllRounds);
+                        Quizmas.createRound(value).then(clearInputFields).then(showAllRounds);
                     }
             });
 

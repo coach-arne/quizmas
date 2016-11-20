@@ -59,6 +59,9 @@
                         return 0;
                     }
 
+                    var amountOfRounds = everything.rounds.length;
+                    var amountOfTeams = everything.teams.length;
+
                     everything.rounds.sort(stringSort).forEach(function (round) {
                         $('<span />', {
                             class: 'score-round-header',
@@ -66,13 +69,13 @@
                         }).appendTo('#scores-header');
                     });
 
-                    everything.teams.sort(function (a, b){ return a.table - b.table; }).forEach(function (team) {
+                    everything.teams.sort(function (a, b){ return a.table - b.table; }).forEach(function (team, $tIndex) {
                         $('<div />', {
                             id: 'team-'+team.id,
                             html: `<span style="font-weight: bold; margin-right: 12px; width: 300px; display: inline-block">${team.table}: ${team.name}</span>`
                         }).appendTo('#scores-container');
 
-                        everything.rounds.sort(stringSort).forEach(function (round) {
+                        everything.rounds.sort(stringSort).forEach(function (round, $rIndex) {
 
                             var scorePath = R.lensPath(['scores', team.id, round.id]);
                             var score = R.view(scorePath, everything) || 0;
@@ -84,9 +87,32 @@
 
                             $(`#score-${team.id}-${round.id}`).blur(function () {
                                 Quizmas.updateTeamScore(team.id, round.id, $(this).val()).then(function () {
-                                    console.log('done');
+
                                 });
                             });
+
+                            $(`#score-${team.id}-${round.id}`).keyup(function (evt) {
+
+                                if (evt.keyCode === 39) { // right
+                                    if ($rIndex + 1 < amountOfRounds) gainFocus($tIndex, $rIndex + 1);
+                                } else if (evt.keyCode === 37) { // left
+                                    if ($rIndex - 1 >= 0) gainFocus($tIndex, $rIndex - 1);
+                                } else if (evt.keyCode === 38) { // up
+                                    if ($tIndex - 1 >= 0) gainFocus($tIndex - 1, $rIndex);
+                                } else if (evt.keyCode === 40) { // down
+                                    if ($tIndex + 1 < amountOfTeams) gainFocus($tIndex + 1, $rIndex);
+                                }
+
+                            });
+
+                            function gainFocus (tIndex, rIndex) {
+
+                                var team = everything.teams[tIndex];
+                                var round = everything.rounds[rIndex];
+
+                                $(`#score-${team.id}-${round.id}`).focus();
+                                $(`#score-${team.id}-${round.id}`).select();
+                            }
 
                         });
 
