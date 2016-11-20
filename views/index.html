@@ -6,14 +6,18 @@
 
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/bootstrap-theme.css" rel="stylesheet">
-    <link href="css/styles.css" rel="stylesheet">
+    <link href="css/styles-preview.css" rel="stylesheet">
 
 </head>
 <body>
-    <h1>Index</h1>
 
+    <div id="view-list" style="display: none;">
+        <h1>Tussenstand</h1>
+    </div>
 
-    <span id="type"></span>
+    <div id="view-final" style="display: none;">
+        <h1>Einduitslag</h1>
+    </div>
 
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
@@ -23,8 +27,35 @@
 
         $(document).ready(function (){
             Quizmas.getEverything().then(function (everything) {
-                $('#type').html(`toon als ${everything.display.mode}`);
+                console.log(everything);
+                calculateRanking(everything);
             });
+
+            function getTeamNameById (everything, id) {
+                var filtered = everything.teams.filter(function (team) { return team.id === id });
+                if (filtered.length > 0) return filtered[0].name;
+                else return "";
+            }
+
+            function byScore (a, b) { return b.score - a.score; }
+
+            function calculateRanking (everything) {
+                var results = Object.keys(everything.scores).map(function (teamId) {
+                    console.log(teamId);
+                    var scoresForTeam = everything.scores[teamId];
+                    return {
+                        name: getTeamNameById(everything, teamId),
+                        score: Object.keys(scoresForTeam).reduce(function (score, roundId) {
+                            return score + parseInt(scoresForTeam[roundId]);
+                        }, 0)
+                    }
+                }).sort(byScore);
+
+                console.log(results);
+
+                $(`#view-${everything.display.mode}`).show();
+            }
+
         });
 
     </script>
