@@ -11,17 +11,19 @@
 </head>
 <body>
 
-    <div class="row">
+    <div class="row" style="margin-bottom: 24px;">
         <ul class="nav nav-pills">
+            <li role="presentation"><a href="../index.html">Preview</a></li>
             <li role="presentation" class="active"><a href="#">Scores</a></li>
             <li role="presentation"><a href="rounds.html">Rondes</a></li>
             <li role="presentation"><a href="teams.html">Teams</a></li>
         </ul>
     </div>
 
-    <div class="row">
-        <div class="col-sm-12">
-            <h1>Quizmas: Scores</h1>
+    <div class="row" style="margin-bottom: 12px;">
+        <div class="pull-right">
+            <span id="btn-list-view" class="btn btn-info">Toon als overzicht</span>
+            <span id="btn-final-view" class="btn btn-default">Toon voor einduitslag</span>
         </div>
     </div>
 
@@ -45,6 +47,9 @@
                 $('#scores-container').html();
 
                 Quizmas.getEverything().then(function (everything) {
+
+                    if (everything.display.mode === 'list') showAsList();
+                    else if (everything.display.mode === 'final') showAsFinal();
 
                     function stringSort (item1, item2) {
                         if ( item1.name < item2.name )
@@ -91,6 +96,24 @@
 
                 });
             }
+
+            function showAsList () {
+                $('#btn-list-view').removeClass('btn-default').addClass('btn-info');
+                $('#btn-final-view').removeClass('btn-info').addClass('btn-default');
+            }
+
+            function showAsFinal () {
+                $('#btn-final-view').removeClass('btn-default').addClass('btn-info');
+                $('#btn-list-view').removeClass('btn-info').addClass('btn-default');
+            }
+
+            $('#btn-list-view').click(function () {
+                Quizmas.setDisplayMode('list').then(showAsList);
+            });
+
+            $('#btn-final-view').click(function () {
+                Quizmas.setDisplayMode('final').then(showAsFinal);
+            });
 
             update();
         });

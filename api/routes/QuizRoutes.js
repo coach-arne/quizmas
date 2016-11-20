@@ -19,4 +19,6 @@ module.exports = (App) => {
 
     App.post('/api/admin/score/team/:team/round/:round/score', (req, res) => res.status(200).send(QuizService.setScoreForTeamForRound(req.params.team, req.params.round, req.query.value)));
 
+    App.post('/api/display', (req, res) => res.status(200).send(QuizRepository.setDisplayMode(req.query.mode)));
+
 };

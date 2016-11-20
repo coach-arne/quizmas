@@ -13,7 +13,7 @@
     <h1>Index</h1>
 
 
-
+    <span id="type"></span>
 
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
@@ -21,7 +21,11 @@
     <script src="js/quizmas.js"></script>
     <script>
 
-
+        $(document).ready(function (){
+            Quizmas.getEverything().then(function (everything) {
+                $('#type').html(`toon als ${everything.display.mode}`);
+            });
+        });
 
     </script>
 </body>

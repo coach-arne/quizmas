@@ -27,6 +27,10 @@
             return fetch('/api/quiz/everything').then(toJson);
         }
 
+        function setDisplayMode (mode) {
+            return fetch('/api/display?mode='+encodeURIComponent(mode), { method: 'post' }).then(toJson);
+        }
+
         return {
             getTeams: getTeams,
             createTeam: createTeam,
@@ -38,7 +42,8 @@
             getRankingsForFinal: getRankingsForFinal,
             getScores: getScores,
             updateTeamScore: updateTeamScore,
-            getEverything: getEverything
+            getEverything: getEverything,
+            setDisplayMode: setDisplayMode
         };
     }();
 
