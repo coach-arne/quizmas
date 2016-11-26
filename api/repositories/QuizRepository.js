@@ -30,6 +30,7 @@ const getDisplayMode = () => displayMode().view();
 // Setters
 const setTeams = (t) => teams().set(t);
 const setRounds = (r) => rounds().set(r);
+const setScores = (s) => scores().set(s);
 const setScoreForTeamForRound = (team, round, value) => scoresForTeamForRound(team, round).set(value);
 const setDisplayMode = (mode) => displayMode().set(mode);
 
@@ -52,13 +53,23 @@ const deleteTeam = (id) => {
     const list = R.clone(teams().view());
     const filtered = list.filter((team) => team.id !== id);
 
+    const scoresList = R.clone(scores().view());
+    delete scoresList[id];
+
     setTeams(filtered);
+    setScores(scoresList);
 };
 const deleteRound = (id) => {
     const list = R.clone(rounds().view());
     const filtered = list.filter((round) => round.id !== id);
 
+    const scoresList = R.clone(scores().view());
+    R.keys(scoresList).forEach((teamId) => {
+        if (scoresList[teamId][id]) delete scoresList[teamId][id];
+    });
+
     setRounds(filtered);
+    setScores(scoresList);
 };
 
 // Administrative

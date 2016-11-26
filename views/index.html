@@ -8,11 +8,36 @@
     <link href="css/bootstrap-theme.css" rel="stylesheet">
     <link href="css/styles-preview.css" rel="stylesheet">
 
+
+    <style>
+        body { font-size: 32px; }
+        h1 { font-size: 52px; }
+    </style>
 </head>
 <body>
 
+    <img style="width: 250px; position: absolute; bottom: 10px; right: 10px;" src="images/quizmas-logo.png" />
+
     <div id="view-list" style="display: none;">
-        <h1>Tussenstand</h1>
+        <div class="row">
+            <div class="col-sm-6 col-sm-offset-3">
+                <h1>Tussenstand</h1>
+            </div>
+        </div>
+        <div class="row" style="margin-left: 25px; margin-top: 25px;">
+            <div id="result-container" class="col-sm-6 col-sm-offset-3">
+                <p> 1. De loserkes</p>
+                <p> 2. De loserkes</p>
+                <p> 3. De loserkes</p>
+                <p> 4. De loserkes</p>
+                <p> 5. De loserkes</p>
+                <p> 6. De loserkes</p>
+                <p> 7. De loserkes</p>
+                <p> 8. De loserkes</p>
+                <p> 9. De loserkes</p>
+                <p>10. De loserkes</p>
+            </div>
+        </div>
     </div>
 
     <div id="view-final" style="display: none;">
@@ -24,6 +49,17 @@
     <script src="js/fetch.js"></script>
     <script src="js/quizmas.js"></script>
     <script>
+
+        Object.defineProperty(Array.prototype, 'chunksOf', {
+            value: function(chunkSize) {
+                var array=this;
+                return [].concat.apply([],
+                        array.map(function(elem,i) {
+                            return i%chunkSize ? [] : [array.slice(i,i+chunkSize)];
+                        })
+                );
+            }
+        });
 
         $(document).ready(function (){
             Quizmas.getEverything().then(function (everything) {
@@ -49,11 +85,31 @@
                             return score + parseInt(scoresForTeam[roundId]);
                         }, 0)
                     }
-                }).sort(byScore);
+                }).sort(byScore)
+                  .chunksOf(10);
 
                 console.log(results);
 
+                showResultsForIndex(results, 0);
+
                 $(`#view-${everything.display.mode}`).show();
+            }
+
+            function showResultsForIndex(results, index) {
+                $('#result-container').html('');
+
+                results[index].forEach(function (team, $index){
+                    console.log(team);
+                    $('<p />', {
+                        html: `${$index+1}. ${team.name} (${team.score})`
+                    }).appendTo('#result-container');
+                });
+
+                if (++index === results.length) index = 0;
+
+                setTimeout(function (){
+                    showResultsForIndex(results, index);
+                }, 5000);
             }
 
         });
