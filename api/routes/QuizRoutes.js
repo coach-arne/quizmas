@@ -21,4 +21,10 @@ module.exports = (App) => {
 
     App.post('/api/display', (req, res) => res.status(200).send(QuizRepository.setDisplayMode(req.query.mode)));
 
+    App.put('/api/backup', (req, res) => res.status(200).send(QuizService.createBackup(req.body)));
+
+    App.post('/api/backup/restore', (req, res) => res.status(200).send(QuizService.restoreToBackup(req.body.name)));
+
+    App.get('/api/backup/list', (req, res) => res.status(200).send(QuizService.getBackups()));
+
 };

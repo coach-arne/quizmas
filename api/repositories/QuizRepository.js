@@ -75,6 +75,24 @@ const deleteRound = (id) => {
 // Administrative
 const save = () => fs.writeFileSync(dir + '/api/data/data.json', JSON.stringify(Lenses.config()));
 
+
+const getAllBackups = () => {
+    return fs.readdirSync(dir + '/api/data/back-ups').map((f) => f.replace(/\.[^/.]+$/, ""));
+};
+
+const saveToBackup = (backup) => {
+    fs.writeFileSync(dir + '/api/data/back-ups/'+backup.name+'.json', JSON.stringify(Lenses.config()));
+    return backup;
+};
+
+const restore = (name) => {
+    const backup = require('data/back-ups/'+name+'.json');
+
+    Lenses.use(backup);
+
+    save();
+};
+
 // Exports
 module.exports = {
     getAllTeams, getAllRounds, getAllScores, getScoresForTeam, getScoreForTeamForRound, getDisplay, getDisplayMode,
@@ -82,5 +100,6 @@ module.exports = {
     save,
     createTeam, createRound,
     deleteTeam, deleteRound,
-    everything: () => Lenses.config()
+    everything: () => Lenses.config(),
+    getAllBackups, saveToBackup, restore
 };

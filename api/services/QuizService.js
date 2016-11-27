@@ -58,4 +58,16 @@ const createRound = (name) => {
     return round;
 };
 
-module.exports = { setScoreForTeamForRound, createTeam, createRound, deleteTeam, deleteRound };
+const createBackup = (backup) => {
+    return QuizRepository.saveToBackup(backup);
+};
+
+const getBackups = () => {
+    return QuizRepository.getAllBackups();
+};
+
+const restoreToBackup = (name) => {
+    return QuizRepository.restore(name);
+};
+
+module.exports = { setScoreForTeamForRound, createTeam, createRound, deleteTeam, deleteRound, createBackup, getBackups, restoreToBackup };
