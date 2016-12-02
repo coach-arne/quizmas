@@ -31,6 +31,10 @@
             return fetch('/api/display?mode='+encodeURIComponent(mode), { method: 'post' }).then(toJson);
         }
 
+        function getBackups () { return fetch('/api/backup/list').then(toJson); }
+        function restoreToBackup (backup) { return fetch('/api/backup/restore', { method: 'post', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: backup }) }); }
+        function createBackup (name) { return fetch('/api/backup', { method: 'put', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: name }) }); }
+
         return {
             getTeams: getTeams,
             createTeam: createTeam,
@@ -43,7 +47,10 @@
             getScores: getScores,
             updateTeamScore: updateTeamScore,
             getEverything: getEverything,
-            setDisplayMode: setDisplayMode
+            setDisplayMode: setDisplayMode,
+            getBackups:getBackups,
+            restoreToBackup:restoreToBackup,
+            createBackup:createBackup
         };
     }();
 

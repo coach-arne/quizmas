@@ -87,6 +87,7 @@ const saveToBackup = (backup) => {
 
 const restore = (name) => {
     const backup = require('data/back-ups/'+name+'.json');
+    console.log(name, backup);
 
     Lenses.use(backup);
 

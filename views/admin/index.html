@@ -21,9 +21,23 @@
     </div>
 
     <div class="row" style="margin-bottom: 12px;">
-        <div class="pull-right">
-            <span id="btn-list-view" class="btn btn-info">Toon als overzicht</span>
-            <span id="btn-final-view" class="btn btn-default">Toon voor einduitslag</span>
+        <div class="col-md-4">
+            <input id="back-up-name-input" class="form-control"/>
+        </div>
+        <div class="col-md-2">
+            <span id="back-up-name-btn" class="btn btn-success">Make backup</span>
+        </div>
+    </div>
+
+    <div class="row" style="margin-bottom: 12px;">
+        <div class="col-md-12">
+            <div class="pull-left">
+                Restore to backup: <select id="back-up-select"></select> <span id="back-up-select-btn" class="btn btn-default">Restore</span>
+            </div>
+            <div class="pull-right">
+                <span id="btn-list-view" class="btn btn-info">Toon als overzicht</span>
+                <span id="btn-final-view" class="btn btn-default">Toon voor einduitslag</span>
+            </div>
         </div>
     </div>
 
@@ -44,7 +58,20 @@
         $(document).ready(function (){
 
             function update () {
-                $('#scores-container').html();
+
+                $('#scores-container').html('');
+                $('#scores-header').html(`<span style="display: inline-block; width: 300px; margin-right: 8px;">Tafelnummer & groepsnaam</span>`);
+                $('#back-up-select').html('');
+                $('#back-up-name-input').val('');
+
+                Quizmas.getBackups().then(function (backups) {
+                    backups.forEach(function (backup) {
+                        $('<option />', {
+                            value: `${backup}`,
+                            html: `${backup}`
+                        }).appendTo('#back-up-select');
+                    });
+                });
 
                 Quizmas.getEverything().then(function (everything) {
 
@@ -139,6 +166,25 @@
 
             $('#btn-final-view').click(function () {
                 Quizmas.setDisplayMode('final').then(showAsFinal);
+            });
+
+            $('#back-up-select-btn').click(function () {
+                var backup = $("#back-up-select option:selected").val();
+
+                if (backup) {
+                    console.log(backup);
+                    Quizmas.restoreToBackup(backup).then(update);
+                }
+            });
+
+            $('#back-up-name-btn').click(function () {
+
+                var name = $('#back-up-name-input').val();
+                Quizmas.createBackup(name).then(function () {
+                    alert(`Backup [${name}] successfully saved!`);
+                    update();
+                });
+
             });
 
             update();
