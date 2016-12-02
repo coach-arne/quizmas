@@ -16,16 +16,16 @@
 </head>
 <body>
 
-    <img style="width: 250px; position: absolute; bottom: 10px; right: 10px;" src="images/quizmas-logo.png" />
+    <img style="width: 180px; position: absolute; bottom: 10px; right: 10px;" src="images/quizmas-logo.png" />
 
     <div id="view-list" style="display: none;">
         <div class="row">
-            <div class="col-sm-6 col-sm-offset-3">
+            <div class="col-sm-10 col-sm-offset-1">
                 <h1>Tussenstand</h1>
             </div>
         </div>
         <div class="row" style="margin-left: 25px; margin-top: 25px;">
-            <div id="result-container" class="col-sm-6 col-sm-offset-3">
+            <div id="result-container" class="col-sm-10 col-sm-offset-1">
                 <p> 1. De loserkes</p>
                 <p> 2. De loserkes</p>
                 <p> 3. De loserkes</p>
@@ -101,7 +101,7 @@
                 results[index].forEach(function (team, $index){
                     console.log(team);
                     $('<p />', {
-                        html: `${$index+1}. ${team.name} (${team.score})`
+                        html: `${$index+ (10*index) +1}. ${team.name} (${team.score})`
                     }).appendTo('#result-container');
                 });
 
