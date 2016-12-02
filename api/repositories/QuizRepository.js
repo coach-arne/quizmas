@@ -87,17 +87,29 @@ const saveToBackup = (backup) => {
 
 const restore = (name) => {
     const backup = require('data/back-ups/'+name+'.json');
-    console.log(name, backup);
 
     Lenses.use(backup);
 
     save();
 };
 
+const setTiebreaker = (team, value) => {
+
+    const list = R.clone(teams().view());
+
+    setTeams(list.map((t) => {
+        if (t.id == team) t.tiebreaker = value;
+        return t;
+    }));
+
+    save();
+
+};
+
 // Exports
 module.exports = {
     getAllTeams, getAllRounds, getAllScores, getScoresForTeam, getScoreForTeamForRound, getDisplay, getDisplayMode,
-    setScoreForTeamForRound, setDisplayMode,
+    setScoreForTeamForRound, setDisplayMode, setTiebreaker,
     save,
     createTeam, createRound,
     deleteTeam, deleteRound,

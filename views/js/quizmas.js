@@ -35,6 +35,8 @@
         function restoreToBackup (backup) { return fetch('/api/backup/restore', { method: 'post', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: backup }) }); }
         function createBackup (name) { return fetch('/api/backup', { method: 'put', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: name }) }); }
 
+        function setTiebreakerForTeam (team, value) { return fetch('/api/team/'+team+'/tiebreaker', { method: 'post', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ value: value }) }); }
+
         return {
             getTeams: getTeams,
             createTeam: createTeam,
@@ -50,7 +52,8 @@
             setDisplayMode: setDisplayMode,
             getBackups:getBackups,
             restoreToBackup:restoreToBackup,
-            createBackup:createBackup
+            createBackup:createBackup,
+            setTiebreakerForTeam: setTiebreakerForTeam
         };
     }();
 

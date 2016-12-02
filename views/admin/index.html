@@ -89,6 +89,11 @@
                     var amountOfRounds = everything.rounds.length;
                     var amountOfTeams = everything.teams.length;
 
+                    $('<span />', {
+                        class: 'score-round-header',
+                        html: `TB`
+                    }).appendTo('#scores-header');
+
                     everything.rounds.sort(stringSort).forEach(function (round) {
                         $('<span />', {
                             class: 'score-round-header',
@@ -101,6 +106,15 @@
                             id: 'team-'+team.id,
                             html: `<span style="font-weight: bold; margin-right: 12px; width: 300px; display: inline-block">${team.table}: ${team.name}</span>`
                         }).appendTo('#scores-container');
+
+                        $('<span />', {
+                            id: 'team-'+team.id+'-tiebreaker',
+                            html: `<input class="score-input" id="score-${team.id}-tiebreaker" type="text" value="${team.tiebreaker}" />`
+                        }).appendTo('#team-'+team.id);
+
+                        $(`#score-${team.id}-tiebreaker`).blur(function () {
+                            Quizmas.setTiebreakerForTeam(team.id, $(this).val());
+                        });
 
                         everything.rounds.sort(stringSort).forEach(function (round, $rIndex) {
 
