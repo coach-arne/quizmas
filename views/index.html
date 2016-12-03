@@ -68,22 +68,41 @@
             });
 
             function getTeamNameById (everything, id) {
-                var filtered = everything.teams.filter(function (team) { return team.id === id });
-                if (filtered.length > 0) return filtered[0].name;
-                else return "";
+                var team = getTeamById(everything, id);
+                if (team) return team.name;
+                else return '';
             }
 
-            function byScore (a, b) { return b.score - a.score; }
+            function getTeamById (everything, id) {
+                var filtered = everything.teams.filter(function (team) { return team.id === id });
+                if (filtered.length > 0) return filtered[0];
+                else return null;
+            }
+
+            /* CHANGE TIEBREAKER HERE */
+            var tiebreaker = 10;
+
+            function byScore (a, b) {
+                if (b.score !== a.score)
+                    return b.score - a.score;
+                else {
+                    var btiebreak = tiebreaker - b.tiebreaker;
+                    var atiebreak = tiebreaker - a.tiebreaker;
+                    return atiebreak - btiebreak;
+                }
+            }
 
             function calculateRanking (everything) {
+                console.log(everything);
                 var results = Object.keys(everything.scores).map(function (teamId) {
-                    console.log(teamId);
+                    var team = getTeamById(everything, teamId);
                     var scoresForTeam = everything.scores[teamId];
                     return {
                         name: getTeamNameById(everything, teamId),
                         score: Object.keys(scoresForTeam).reduce(function (score, roundId) {
                             return score + parseInt(scoresForTeam[roundId]);
-                        }, 0)
+                        }, 0),
+                        tiebreaker: parseInt(team.tiebreaker || 0)
                     }
                 }).sort(byScore)
                   .chunksOf(10);
