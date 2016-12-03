@@ -26,7 +26,8 @@ const createTeam = (name, table) => {
     const team = {
         id: UUID.v4(),
         table: table,
-        name: name
+        name: name,
+        tiebreaker: "0"
     };
 
     QuizRepository.createTeam(team);
