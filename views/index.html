@@ -10,6 +10,7 @@
 
 
     <style>
+        html, body { height: 100%; }
         body { font-size: 32px; }
         h1 { font-size: 52px; }
     </style>
@@ -18,7 +19,7 @@
 
     <img style="width: 180px; position: absolute; bottom: 10px; right: 10px;" src="images/quizmas-logo.png" />
 
-    <div id="view-list" style="display: none;">
+    <div id="view-list" class="hidden">
         <div class="row">
             <div class="col-sm-10 col-sm-offset-1">
                 <h1>Tussenstand</h1>
@@ -40,7 +41,7 @@
         </div>
     </div>
 
-    <div id="view-final" style="display: none;">
+    <div id="view-final" class="hidden" style="height: 100%; display: flex; align-items: center; justify-content: center; font-size: 42px; ">
         <h1>Einduitslag</h1>
     </div>
 
@@ -62,8 +63,36 @@
         });
 
         $(document).ready(function (){
+
+            var isViewingFinal = false;
+            var index = -1;
+            var finals = [];
+
+            $(document).keyup(function (evt){
+                if (isViewingFinal) {
+                    if (evt.keyCode === 13) {
+                        if (index + 1 < finals.length)
+                            showFinalResultForIndex (finals, ++index);
+                    }
+                }
+            });
+
+            function showFinalResultForIndex (finals, index) {
+                $('#view-final').html('');
+
+                var final = finals[index];
+                var position = index + 1;
+
+                if (index === 0) position = 3;
+                if (index === 1) position = 2;
+                if (index === 2) position = 1;
+
+                $('<div />', {
+                    html: `${position}. ${final.name} (${final.score})`
+                }).appendTo($('#view-final'));
+            }
+
             Quizmas.getEverything().then(function (everything) {
-                console.log(everything);
                 calculateRanking(everything);
             });
 
@@ -93,7 +122,6 @@
             }
 
             function calculateRanking (everything) {
-                console.log(everything);
                 var results = Object.keys(everything.scores).map(function (teamId) {
                     var team = getTeamById(everything, teamId);
                     var scoresForTeam = everything.scores[teamId];
@@ -104,14 +132,24 @@
                         }, 0),
                         tiebreaker: parseInt(team.tiebreaker || 0)
                     }
-                }).sort(byScore)
-                  .chunksOf(10);
+                }).sort(byScore);
 
-                console.log(results);
+                if (everything.display.mode === 'list') {
+                    showResultsForIndex(results.chunksOf(10), 0);
+                    $(`#view-${everything.display.mode}`).removeClass('hidden');
+                }
 
-                showResultsForIndex(results, 0);
+                if (everything.display.mode === 'final') {
 
-                $(`#view-${everything.display.mode}`).show();
+                    isViewingFinal = true;
+
+                    results[0] = results.splice(1, 1, results[0])[0];
+                    results[0] = results.splice(2, 1, results[0])[0];
+                    results[1] = results.splice(2, 1, results[1])[0];
+
+                    finals = results;
+                    $(`#view-${everything.display.mode}`).removeClass('hidden');
+                }
             }
 
             function showResultsForIndex(results, index) {
