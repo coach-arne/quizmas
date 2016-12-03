@@ -32,7 +32,11 @@ const setTeams = (t) => teams().set(t);
 const setRounds = (r) => rounds().set(r);
 const setScores = (s) => scores().set(s);
 const setScoreForTeamForRound = (team, round, value) => scoresForTeamForRound(team, round).set(value);
-const setDisplayMode = (mode) => displayMode().set(mode);
+const setDisplayMode = (mode) => {
+    displayMode().set(mode);
+    save ();
+    return { mode: mode };
+};
 
 // Creators
 const createTeam = (team) => {
