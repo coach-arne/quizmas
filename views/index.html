@@ -44,11 +44,11 @@
 
         Object.defineProperty(Array.prototype, 'chunksOf', {
             value: function(chunkSize) {
-                var array=this;
+                var array = this;
                 return [].concat.apply([],
-                        array.map(function(elem,i) {
-                            return i%chunkSize ? [] : [array.slice(i,i+chunkSize)];
-                        })
+                    array.map(function(elem,i) {
+                        return i%chunkSize ? [] : [array.slice(i,i+chunkSize)];
+                    })
                 );
             }
         });
@@ -83,9 +83,7 @@
                 }).appendTo($('#view-final'));
             }
 
-            Quizmas.getEverything().then(function (everything) {
-                calculateRanking(everything);
-            });
+            Quizmas.getEverything().then(calculateRanking);
 
             function getTeamNameById (everything, id) {
                 var team = getTeamById(everything, id);
@@ -99,8 +97,8 @@
                 else return null;
             }
 
-            /* CHANGE TIEBREAKER HERE */
-            var tiebreaker = 10;
+            /* TODO: CHANGE TIEBREAKER HERE */
+            var tiebreaker = 558;
 
             function byScore (a, b) {
                 if (b.score !== a.score)
