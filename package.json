@@ -26,6 +26,10 @@
     "ramda": "^0.22.1"
   },
   "dependencies": {
+    "async": "^2.6.1",
+    "csvtojson": "^2.0.8",
+    "multer": "^1.4.1",
+    "node-cmd": "^3.0.0",
     "socket.io": "^2.2.0"
   }
 }
