@@ -17,7 +17,7 @@
 </head>
 <body>
 
-    <img style="width: 180px; position: absolute; bottom: 10px; right: 10px;" src="images/quizmas-logo.png" />
+    <img style="width: 250px; position: absolute; bottom: 50px; right: 50px;" src="images/inkubis.png" />
 
     <div id="view-list" class="hidden">
         <div class="row">
@@ -60,15 +60,21 @@
             var finals = [];
 
             $(document).keyup(function (evt){
-                if (isViewingFinal) {
-                    if (evt.keyCode === 13) {
+                if (isViewingFinal) {                        
+                    
+                    if (evt.keyCode === 13 || evt.keyCode == 34) {
                         if (index + 1 < finals.length)
                             showFinalResultForIndex (finals, ++index);
+                    }
+
+                    if (evt.keyCode === 33) {                        
+                        if (index - 1 >= 0)
+                            showFinalResultForIndex (finals, --index);
                     }
                 }
             });
 
-            function showFinalResultForIndex (finals, index) {
+            function showFinalResultForIndex (finals, index) {                
                 $('#view-final').html('');
 
                 var final = finals[index];
@@ -98,15 +104,15 @@
             }
 
             /* TODO: CHANGE TIEBREAKER HERE */
-            var tiebreaker = 558;
+            var tiebreaker = 3254853;
 
             function byScore (a, b) {
                 if (b.score !== a.score)
                     return b.score - a.score;
-                else {
-                    var btiebreak = tiebreaker - b.tiebreaker;
-                    var atiebreak = tiebreaker - a.tiebreaker;
-                    return atiebreak - btiebreak;
+                else {                    
+                    var btiebreak = tiebreaker - b.tiebreaker;                    
+                    var atiebreak = tiebreaker - a.tiebreaker;                    
+                    return Math.abs(atiebreak) - Math.abs(btiebreak);
                 }
             }
 
@@ -124,7 +130,7 @@
                 }).sort(byScore);
 
                 if (everything.display.mode === 'list') {
-                    showResultsForIndex(results.chunksOf(10), 0);
+                    showResultsForIndex(results.chunksOf(13), 0);
                     $(`#view-${everything.display.mode}`).removeClass('hidden');
                 }
 

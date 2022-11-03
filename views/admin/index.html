@@ -90,7 +90,7 @@
                     var amountOfTeams = everything.teams.length;
 
                     $('<span />', {
-                        class: 'score-round-header',
+                        class: 'tb-round-header',
                         html: `TB`
                     }).appendTo('#scores-header');
 
@@ -109,7 +109,7 @@
 
                         $('<span />', {
                             id: 'team-'+team.id+'-tiebreaker',
-                            html: `<input class="score-input" id="score-${team.id}-tiebreaker" type="text" value="${team.tiebreaker}" />`
+                            html: `<input class="tb-input" id="score-${team.id}-tiebreaker" type="text" value="${team.tiebreaker}" />`
                         }).appendTo('#team-'+team.id);
 
                         $(`#score-${team.id}-tiebreaker`).blur(function () {

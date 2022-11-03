@@ -10,4 +10,6 @@ body {
 .margin-top { margin-top: 12px; }
 
 .score-input { width: 30px; }
+.tb-input { width: 70px; }
 .score-round-header { display: inline-block; width: 30px; text-align: center;}
+.tb-round-header { display: inline-block; width: 70px; text-align: center;}
