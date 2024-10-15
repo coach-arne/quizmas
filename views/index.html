@@ -42,6 +42,9 @@
     <script src="js/quizmas.js"></script>
     <script>
 
+        /* TODO: CHANGE TIEBREAKER HERE */
+        var tiebreaker = 7259;
+
         Object.defineProperty(Array.prototype, 'chunksOf', {
             value: function(chunkSize) {
                 var array = this;
@@ -105,7 +108,6 @@
 
             /* TODO: CHANGE TIEBREAKER HERE */
             var tiebreaker = 3250;
-
             function byScore (a, b) {
                 if (b.score !== a.score)
                     return b.score - a.score;
@@ -130,7 +132,7 @@
                 }).sort(byScore);
 
                 if (everything.display.mode === 'list') {
-                    showResultsForIndex(results.chunksOf(13), 0);
+                    showResultsForIndex(results.chunksOf(16), 0);
                     $(`#view-${everything.display.mode}`).removeClass('hidden');
                 }
 
