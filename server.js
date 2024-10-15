@@ -20,4 +20,4 @@ require('routes/QuizRoutes')(App);
 require('routes/TeamRoutes')(App);
 require('routes/RoundRoutes')(App);
 
-App.listen(8080, () => console.log('Quizmas App Launched'));
+App.listen(8080, () => console.log('Quizmas App Launched (:8080, :8080/admin)'));
